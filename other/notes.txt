@@ -1,0 +1,84 @@
+Trader Bot Functions:
+- Get past data, around 5 days of data, then  use indicators.py to get all data from there,
+- Get current data, then use indicators.py to get all data from there, using yfinance library
+- Use trading_view library to get the latest values as well as recommendations of "BUY" or "SELL" or "NEUTRAL"
+- Use ta to get the latest candlestick pattern
+- Create decision-making where bot will use both ta_data and trading_view data to come to conclusion and provide logical decision
+    - Action
+    - Reason
+    - Estimated Entry - The price at which the bot suggests entering the trade (usually the current close).
+    - Estimated Stop Loss - The price level where you would exit the trade to limit potential losses, calculated dynamically based on ATR.
+    - Estimated Take Profit - The price level where you would exit the trade to lock in potential gains, also calculated dynamically based on ATR.
+    - Candlestick Trend Interpretation -  A short prediction about the immediate future price movement based on the latest candle's shape and historical context.
+
+
+
+--- Analyzing historical context for AUDCAD=X ---:
+
+    This runs once at the start. It's building a long-term view of the market's behavior (e.g., is it typically ranging or trending?).
+
+    Historical ADX State: RANGING/TRENDING/MIXED/UNCLEAR: Your bot's assessment of the dominant market condition over the YFINANCE_PERIOD_FOR_CONTEXT.
+
+    Historical Pattern Summary: {'Doji_Frequent': True/False, ...}: Indicates if certain candlestick patterns (like Dojis or Spinning Tops, which suggest indecision) are common in the historical data.
+
+--- Live Analysis for AUDCAD at [Timestamp] ---:
+
+    This section updates every 2 minutes.
+
+    Current Candle (Open/High/Low/Close): ...: The exact price data for the most recently completed 5-minute candle.
+
+    Volume: ...: Trading volume for that candle.
+
+    RSI (TradingView): ... / ADX (TradingView): ... / MACD Histogram (TradingView): ...: These are the aggregated indicator values provided directly by TradingView's analysis.
+
+    Overall Recommendation (TradingView): BUY/SELL/NEUTRAL/STRONG_BUY/STRONG_SELL: TradingView's general recommendation based on a wide range of indicators.
+
+    Oscillators Recommendation (TradingView): BUY/SELL/NEUTRAL: TradingView's recommendation specifically from oscillator-type indicators (like RSI, Stochastic).
+
+--- 'ta' Library Live Indicators ---:
+
+    These are the indicators your bot calculated itself using the ta library from the recent yfinance data.
+
+    Latest RSI (ta): ... / Latest ADX (ta): ... / Latest MACD Diff (ta): ... / Latest ATR (ta): ...: The values of these indicators for the most recent candle, calculated by your script.
+
+    Latest Hammer Pattern: Bullish/Bearish/None / Latest Engulfing Pattern: ... / Latest Doji Pattern: ...: Your bot's detection of these specific candlestick patterns on the very last candle.
+
+--- Decision Logic ---:
+
+    This section explains how the bot arrived at its recommendation, showing which conditions (e.g., "Both 'ta' and TradingView ADX confirm RANGING market.") were met.
+
+--- Bot's Recommendation (Combined Analysis) ---:
+
+    Action: BUY/SELL/HOLD: This is your bot's final, synthesized trading recommendation for the current moment.
+
+    Reasoning:: A bulleted list explaining why the bot made that specific recommendation, combining insights from historical context, TradingView's analysis, and your own ta calculations.
+
+    Estimated Entry: ...: The price at which the bot suggests entering the trade (usually the current close).
+
+    Estimated Stop Loss: ...: The price level where you would exit the trade to limit potential losses, calculated dynamically based on ATR.
+
+    Estimated Take Profit: ...: The price level where you would exit the trade to lock in potential gains, also calculated dynamically based on ATR.
+
+    Candlestick Trend Interpretation: ...: A short prediction about the immediate future price movement based on the latest candle's shape and historical context.
+
+Features to have:
+- 30 minute sweep of liquidatiy
+- Resistance and Support Lines
+- Validation of fair value gap
+- Invalidation of fair value gap
+
+- Risk-to-Reward: 1:2
+- 
+
+- Analyse 30 mins of data
+- Take all 30 mins of indicators data
+- Create a overall trend of the data
+
+Definitions of Terms:
+- Average directional index (ADX) is a short-term chart indicator. It can be used to help you evaluate the market or an investment's strength. ADX currently suggests the short-term bearish momentum behind stocks appears strong.
+- The Relative Strength Index (RSI) is an oscillating indicator that is designed to measure a stock's momentum, which is both the speed and size of price changes. Helps identify if stock is overbought or oversold
+- Moving average convergence divergence (MACD), is a trading indicator, which can help measure a stock's momentum and identify potential entries and exits
+- The Ulcer Index (UI) is a technical indicator that measures downside risk in terms of both the depth and duration of price declines
+- The Bollinger Bands (BB) is a technical analysis tool that consists of a moving average and two standard deviations plotted above and below it. 
+  The bands are used to gauge volatility and measure the degree of price movement relative to the average price
+
