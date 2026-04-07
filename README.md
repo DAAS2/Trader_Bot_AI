@@ -1,46 +1,55 @@
-📈 Trader Bot AI (OANDA + Gemini 2.0)
-An automated, AI-driven Forex trading bot that leverages the OANDA API for live market data, comprehensive technical analysis libraries (TA-Lib, TradingView-TA), and Google's Gemini 2.0 Flash model to execute complex trading decisions.
+🤖 Trader_Bot_AI
+An automated, AI-driven Forex trading bot that combines real-time market data from the OANDA API, comprehensive technical analysis (TA-Lib, ta, TradingView-TA), and Google's Gemini 2.0 Flash model to generate executing trading decisions.
 
-Unlike standard algorithmic bots, this system utilizes a Retrieval-Augmented Generation (RAG) approach by reading established trading strategy PDFs (e.g., ICT, Fibonacci, Bollinger Bandit) and using them as the contextual foundation for Gemini's real-time buy/sell/hold decisions.
+By utilizing a Retrieval-Augmented Generation (RAG) approach, this bot reads established trading strategy PDFs (e.g., ICT, Fibonacci, Bollinger Bandit) and uses them as the contextual foundation for Gemini's real-time BUY, SELL, or HOLD decisions.
 
-✨ Features
-Live Market Data: Fetches real-time, 5-minute granular candlestick data using the OANDA v20 API.
+🚀 Key Features
+Real-Time Data Pipeline: Fetches live 5-minute granular candlestick data via the OANDA v20 API.
 
-Extensive Technical Analysis: Calculates over 20 indicators including RSI, MACD, ADX, Ichimoku Clouds, Keltner Channels, and Bollinger Bands using Python's ta library and TA-Lib.
+Extensive Technical Analysis: Calculates over 20 indicators including RSI, MACD, ADX, Ichimoku Clouds, Keltner Channels, and Bollinger Bands.
 
-Candlestick Pattern Recognition: Automatically detects formations like Hammers, Engulfing patterns, and Dojis.
+Candlestick Pattern Recognition: Automatically detects formations like Hammers, Engulfing patterns, and Dojis using TA-Lib.
 
-Market Regime Detection: Analyzes historical ADX data to classify the current market state as "Trending" or "Ranging" to inform strategy selection.
+Market Regime Detection: Analyzes historical ADX to classify the current market state as "Trending" or "Ranging".
 
-TradingView Integration: Cross-references internal calculations with live TradingView oscillator and trend summaries.
+TradingView Integration: Cross-references internal Python calculations with live TradingView oscillator and trend summaries.
 
-AI-Powered Strategy Ingestion: Uses PyPDF2 to extract logic from established trading strategy PDFs (ICT, Fibonacci, etc.) and feeds them to Gemini.
+AI-Powered RAG Engine: Ingests PDF trading strategies (ICT, Fibonacci, etc.) via PyPDF2 to ground the LLM's logic in established trading theory.
 
-Smart Risk Management: Calculates dynamic Entry, Stop Loss (SL), and Take Profit (TP) targets based on real-time Average True Range (ATR).
+Smart Risk Management: Dynamically calculates Entry, Stop Loss (SL), and Take Profit (TP) targets based on the real-time Average True Range (ATR).
 
-Automated Email Alerts: Sends immediate email notifications outlining Gemini's trading decisions, reasoning, and SL/TP levels.
+Automated Email Alerts: Sends immediate email notifications outlining Gemini's decisions, reasoning, and SL/TP levels via SMTP.
 
-🛠️ Prerequisites
-Before running this bot, you will need:
+🧰 Tech Stack
+Core: Python 3
 
-Python 3.8+
+Market Data: oandapyV20, tradingview-ta
 
-An OANDA Live or Practice Account (for Account ID and Access Token)
+Technical Analysis: ta, TA-Lib, numpy, pandas
 
-A Google Gemini API Key (for Gemini 2.0 Flash)
+AI / LLM: google-generativeai (Gemini 2.0 Flash)
 
-A Gmail Account (with App Passwords enabled for sending email alerts)
+Document Parsing: PyPDF2
 
-C compiler tools (required to build TA-Lib for Python)
+📋 Prerequisites
+Before running the bot, ensure you have the following set up:
 
-📦 Installation
-Clone the repository:
+An OANDA Live or Practice Account (for Account ID and Access Token).
+
+A Google Gemini API Key (Generated via Google AI Studio).
+
+A Gmail Account with App Passwords enabled (for sending email alerts).
+
+C Compiler Tools installed on your system (required to build TA-Lib).
+
+🛠️ Installation
+1. Clone the repository
 
 Bash
 git clone https://github.com/DAAS2/Trader_Bot_AI.git
 cd Trader_Bot_AI
-Install TA-Lib:
-TA-Lib requires the underlying C library to be installed on your system before installing the Python wrapper.
+2. Install TA-Lib (C-Library)
+TA-Lib requires the underlying C library to be installed before installing the Python wrapper.
 
 Windows: Download the pre-compiled .whl file from Christoph Gohlke's repository and run pip install TA_Lib-*.whl.
 
@@ -48,34 +57,29 @@ macOS: brew install ta-lib
 
 Linux: Download the source from the TA-Lib website, configure, make, and make install.
 
-Install Python Dependencies:
+3. Install Python Dependencies
 
 Bash
-pip install numpy pandas oandapyV20 tradingview-ta ta PyPDF2 google-generativeai pytz
+pip install -r requirements.txt
+# Alternatively: pip install numpy pandas oandapyV20 tradingview-ta ta PyPDF2 google-generativeai pytz
 ⚙️ Configuration
-Environment Variables:
-You must set your OANDA credentials as environment variables to keep them secure. Do not hardcode them in the script.
+1. Environment Variables To keep your credentials secure, set your OANDA tokens as environment variables:
 
 Bash
 export OANDA_ACCESS_TOKEN="your_oanda_token_here"
 export OANDA_ACCOUNT_ID="your_oanda_account_id_here"
-(On Windows, use set or configure them in your system environment variables).
+2. API Keys & Email * Update the API_KEY in extract_text_from_pdf.py and oanda_ai.py. (Never commit your actual API keys to GitHub).
 
-API Keys & Email:
+In send_email.py, update the email_sender and email_password variables.
 
-Update the API_KEY in extract_text_from_pdf.py and oanda_ai.py with your secure Gemini API key.
+3. Strategy PDFs Ensure you have a directory named PDF's/ in your root folder containing the required trading strategy documents referenced in return_trading_info().
 
-In send_email.py, update email_sender and email_password (use an App Password, not your standard account password).
-
-PDF Knowledge Base:
-Ensure you have a directory named PDF's/ in the root folder containing your trading strategy documents as referenced in return_trading_info().
-
-🚀 Usage
-Run the main script to start the bot. It will run in a continuous loop, analyzing the market every 5 minutes.
+💻 Usage
+Start the bot by running the main script. It will run in a continuous loop, analyzing the market every 5 minutes and pausing in between intervals.
 
 Bash
 python oanda_ai.py
-Example Output
+Example Console Output
 Plaintext
 Fetching current data for GBP_JPY with granularity M5 (count=100) from OANDA...
 
@@ -97,5 +101,7 @@ Reasons:
 Estimated Entry Price: 191.56000
 Estimated Stop Loss: 191.48500
 Estimated Take Profit: 191.68500
+
+Waiting for 5 minutes before the next analysis...
 ⚠️ Disclaimer
-This software is for educational purposes only. Do not risk money which you are afraid to lose. USE THE SOFTWARE AT YOUR OWN RISK. The authors and contributors assume no responsibility for your trading results. Always test automated trading algorithms on a demo account before deploying them with real capital.
+This software is for educational purposes only. Do not risk money which you are afraid to lose. USE THE SOFTWARE AT YOUR OWN RISK. The authors and contributors assume no responsibility for your trading results. Always test automated trading algorithms on a paper-trading or demo account before deploying them with real capital.
