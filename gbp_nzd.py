@@ -19,8 +19,8 @@ import google.generativeai as genai
 import json # To parse JSON response from Gemini
 
 # --- OANDA API Configuration (IMPORTANT: Replace with your actual values or set environment variables) ---
-OANDA_ACCESS_TOKEN = os.getenv("OANDA_ACCESS_TOKEN", "df5900f4e59133ae236d2ed4f2143e6c-fdd089e02c53a926a117ce2e5e120141") # Replace with your token
-OANDA_ACCOUNT_ID = os.getenv("OANDA_ACCOUNT_ID", "101-011-35933226-001")   # Replace with your account ID
+OANDA_ACCESS_TOKEN = os.getenv("OANDA_ACCESS_TOKEN") # Replace with your token
+OANDA_ACCOUNT_ID = os.getenv("OANDA_ACCOUNT_ID")   # Replace with your account ID
 
 # Initialize OANDA API client
 client_oanda = oandapyV20.API(access_token=OANDA_ACCESS_TOKEN)
@@ -28,7 +28,6 @@ client_oanda = oandapyV20.API(access_token=OANDA_ACCESS_TOKEN)
 # --- Gemini API Configuration ---
 # It's highly recommended to set this as an environment variable
 # e.g., export GEMINI_API_KEY="your_gemini_api_key_here" in your terminal
-API_KEY = "AIzaSyCjziDNkVf-xuzSdMFMYPGtkS8CeGv3qC4"
 genai.configure(api_key=API_KEY)
 # You can initialize the Gemini model here, or inside main if preferred
 gemini_model = genai.GenerativeModel(model_name="gemini-2.0-flash")
