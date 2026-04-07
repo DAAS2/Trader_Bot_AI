@@ -2,7 +2,6 @@ from google import genai
 from PyPDF2 import PdfReader
 
 # === Setup Gemini Client ===
-API_KEY = "AIzaSyCjziDNkVf-xuzSdMFMYPGtkS8CeGv3qC4"  
 client = genai.Client(api_key=API_KEY)
 
 # === PDF text extractor ===
